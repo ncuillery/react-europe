@@ -22,9 +22,17 @@ Comme abordé dans un précédent article, les CSS sont un peu le parent pauvre 
 
 ### Style is not CSS
 
-Par abus de langage, "les styles" et "la CSS" désignent la même chose, mais n'oublions pas que la CSS n'est qu'une façon de déclarer les styles de notre application. A l'origine, les styles étaient déclarés dans l'attribut `style`, avec les problèmes de duplication et de lisibilité que l'on connait. Les sélecteurs CSS et le web sémantique (balises h1, h2, p, ul, li, ...) ont permit l'externalisation des styles dans une CSS. Michael souligne qu'avec `h1 {font-weight: bold;}` d'un coté et `<div class=menu">...</div>` le HTML et le CSS sont déjà intimement lié.
+Par abus de langage, "les styles" et "la CSS" désignent la même chose, mais n'oublions pas que la CSS n'est qu'une façon de déclarer les styles de notre application. A l'origine, les styles étaient déclarés dans l'attribut `style`, avec les problèmes de duplication et de lisibilité que l'on connait. Les sélecteurs CSS et le web sémantique (balises h1, h2, p, ul, li, ...) ont permit l'externalisation des styles dans une CSS. Michael souligne qu'avec `h1 {font-weight: bold;}` d'un coté et `<div class="menu">...</div>` le HTML et le CSS sont déjà intimement liés.
 
+### State changes are UI changes
 
+Le principe de la responsabilité unique ([SoC](https://en.wikipedia.org/wiki/Separation_of_concerns)) déjà mis à mal, c'est encore empire lorsqu'on ajoute du comportement en JS. La logique ainsi implémentée vise en général à modifier "l'état" de notre composant : modification du markup, hide / show sur certains éléments, utilisation de classes *isSelected*, *isEmpty*, ... Le HTML, le CSS et le JS sont au service de l'état du composant.
+
+En faisant maintenant le parallèle avec React, où l'état du composant est central et définit entièrement le rendu, il devient naturel que l'état doit porter les styles.
+
+### Mise en pratique
+
+Après avoir exposé le bien-fondé de cette pratique, Michael enfonce le clou avec quelques exemples de mise en pratique. La transformation CSS vers style-inline est aisé, le code du composant s'en trouve modérement étoffé. 
 
 
 
