@@ -32,7 +32,25 @@ En faisant maintenant le parallèle avec React, où l'état du composant est cen
 
 ### Mise en pratique
 
-Après avoir exposé le bien-fondé de cette pratique, Michael enfonce le clou avec quelques exemples de mise en pratique. La transformation CSS vers style-inline est aisé, le code du composant s'en trouve modérement étoffé. 
+Après avoir exposé le bien-fondé de cette pratique, Michael enfonce le clou avec quelques exemples de mise en pratique. La transformation CSS vers style-inline est aisé, le code du composant s'en trouve modérement étoffé. L'utilisation de variables est possible sans passer par LESS / SASS. Ces variables peuvent être externalisées dans un module CommonJS qui être subtitué par un autre (équivalent des thèmes CSS).
+
+Les pseudo-classes n'ont pas d'équivalent en "style inline", il faut alors traiter aux cas par cas. Parfois c'est facile (on peut reproduire `:nth-child()` avec la variable d'itération lors du rendu d'une liste par exemple), parfois la question ne se pose même pas (`:before` et `:after` deviennent... un span placé avant ou après l'élément), parfois c'est compliqué : le `:hover` est transformé en écoute d'événement mouseover et mouseout nettement plus verbeuse !
+
+C'est là que des librairies comme [Radium](https://github.com/FormidableLabs/radium) permettent de s'affranchir de ces problèmes en interprétant les pseudo-classes et les media-queries (autre point noir des styles inline) définit dans une collection JS:
+```as
+var style = {
+  width: '25%',
+
+  '@media (min-width: 320px)': {
+    width: '100%',
+
+    ':hover': {
+      background: 'white'
+    }
+  }
+};
+```
+
 
 
 
