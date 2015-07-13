@@ -51,5 +51,6 @@ var style = {
 };
 ```
 
+## Ma conclusion
 Déjà peu attiré par le CSS, je n'ai eu aucun mal à adhérer aux théories de Michael. On sent que la question des CSS pour les composants React est épineuse et donne lieu à des tas de work-arounds (comme pour [react-modal](https://github.com/rackt/react-modal/blob/master/lib/helpers/injectCSS.js) par exemple).
 Bien décidé à tester Radium, j'espère retrouver le même confort que lors de ma découverte du JSX (l'aspect "mono-fichier"). J'ajouterai un avantage que n'a pas cité Michael : le style inline sonne le glas du code mort difficilement détectable des CSS.
