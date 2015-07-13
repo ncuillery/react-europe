@@ -36,7 +36,7 @@ Après avoir exposé le bien-fondé de cette pratique, Michael enfonce le clou a
 
 Les pseudo-classes n'ont pas d'équivalent en "style inline", il faut alors traiter aux cas par cas. Parfois c'est facile (on peut reproduire `:nth-child()` avec la variable d'itération lors du rendu d'une liste par exemple), parfois la question ne se pose même pas (`:before` et `:after` deviennent... un span placé avant ou après l'élément), parfois c'est compliqué : le `:hover` est transformé en écoute d'événement mouseover et mouseout nettement plus verbeuse !
 
-C'est là que des librairies comme [Radium](https://github.com/FormidableLabs/radium) permettent de s'affranchir de ces problèmes en interprétant les pseudo-classes et les media-queries (autre point noir des styles inline) définit dans une collection JS:
+C'est là que des librairies comme [Radium](https://github.com/FormidableLabs/radium) permettent de s'affranchir de ces problèmes en interprétant les pseudo-classes et les media-queries (autre point noir des styles inline) définis dans une collection JS:
 ```as
 var style = {
   width: '25%',
@@ -51,6 +51,8 @@ var style = {
 };
 ```
 
+Déjà peu attiré par le CSS, je n'ai eu aucun mal à adhérer aux théories de Michael. On sent que la question des CSS pour les composants React est épineuse et donne lieu à des tas de work-arounds (comme pour [react-modal](https://github.com/rackt/react-modal/blob/master/lib/helpers/injectCSS.js) par exemple).
+Bien décidé à tester Radium, j'espère retrouver le même confort que lors de ma découverte du JSX (l'aspect "mono-fichier"). J'ajouterai un avantage que n'a pas cité Michael : le style inline sonne le glas du code mort difficilement détectable des CSS.
 
 
 
