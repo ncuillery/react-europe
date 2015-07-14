@@ -60,3 +60,5 @@ Bien décidé à tester Radium, j'espère retrouver le même confort que lors de
 La transposition des principes de React à différent support (mobile, canvas, etc.) est valable également pour Flux. Elie Rotenberg, CTO de jeuxvideo.com, a présenté une utilisation de Flux partagé entre le client et le serveur.
 
 ## Shared mutable state is the root of all evil
+
+Elie introduit les notions de Flux, où le store est garant de l'état de l'appli (unique source de vérité) et les composants accèdent à cet état: l'état est partagé mais maintenable car centralisé dans le store. L'idée à la base de l'approche particulière de Elie, c'est que les actions soumettant un résultat via le dispatcher et les stores qui émettent des notifications aux composants sont 2 actes similaires dans leur principe : ils s'agit dans les 2 cas d'un échange unilatéral entre 2 briques du modèle Flux. Le modèle Flux peut alors être vu comme un modèle symétrique "symetrical flux" où stores et composants communiquent entre eux. Et finalement, le canal de 
