@@ -59,6 +59,25 @@ Bien décidé à tester Radium, j'espère retrouver le même confort que lors de
 
 La transposition des principes de React à différent support (mobile, canvas, etc.) est valable également pour Flux. Elie Rotenberg, CTO de jeuxvideo.com, a présenté une utilisation de Flux partagé entre le client et le serveur.
 
-## Shared mutable state is the root of all evil
+## Symetrical Flux
 
-Elie introduit les notions de Flux, où le store est garant de l'état de l'appli (unique source de vérité) et les composants accèdent à cet état: l'état est partagé mais maintenable car centralisé dans le store. L'idée à la base de l'approche particulière de Elie, c'est que les actions soumettant un résultat via le dispatcher et les stores qui émettent des notifications aux composants sont 2 actes similaires dans leur principe : ils s'agit dans les 2 cas d'un échange unilatéral entre 2 briques du modèle Flux. Le modèle Flux peut alors être vu comme un modèle symétrique "symetrical flux" où stores et composants communiquent entre eux. Et finalement, le canal de 
+Elie introduit les notions de Flux, où le store est garant de l'état de l'appli (unique source de vérité) et les composants accèdent à cet état: l'état est partagé mais maintenable car centralisé dans le store. L'idée à la base de l'approche particulière de Elie, c'est que les actions soumettant un résultat via le dispatcher et les stores émettant des notifications aux composants sont 2 actes similaires dans leur principe : ils s'agit dans les 2 cas d'un échange unilatéral entre 2 briques du modèle Flux. Le modèle Flux peut alors être vu comme un modèle symétrique ("symetrical flux") où les composants dispatchent des données des stores et les stores notifient les composants en retour.
+
+## Flux over the channel
+
+Cette simplification du modèle Flux (les actions ont disparu, la notification des stores n'est plus une simple notification mais contient des données) permet de localiser les stores coté serveur et les composants coté client. Ils peuvent communiquer quelquesoit l'implémentation:
+- Callbacks / promesses
+- Event emitters
+- Websockets
+- Webworkers
+- etc.
+
+Le modèle peut s'appliquer par exemple à un tchat. Le store contient l'état de la salle de tchat, il est partagé et accessible par les composants conformément au modèle Flux... à ceci près que les composants se trouvent sur des clients différents (desktop ou mobile) !
+
+## React Nexus
+
+Ce principe de "Flux sur le réseau" est en place sur les sites majeurs de Webedia gaming) (jeuxvideos.com, millenium.org). Un bon nombre de 
+
+
+
+
