@@ -78,11 +78,8 @@ Le modèle peut s'appliquer par exemple à un tchat. Le store contient l'état d
 
 Ce principe de "Flux sur le réseau" est en place sur les sites majeurs de Webedia gaming) (jeuxvideos.com, millenium.org). Un bon nombre de librairies sont disponibles sur le compte Github d'[elie](https://github.com/elierotenberg). Parmi elles, *Nexus Flux* est l'implémentation "symetrical Flux" qui abstrait les méthodes dispatch et onChange, laissant la main aux adapters tels que *Nexus Flux Socket.io*. D'autres adapters vont pouvoir être créés dans le futur pour les différents moyens de communication client / serveur susmentionnés.
 
-Nexus Flux a aussi pour rôle d'optimiser les souscriptions aux stores coté serveur. Lorsqu'un composant souscrit aux notifications d'un store, 
+Nexus Flux a aussi pour rôle d'optimiser les souscriptions aux stores coté serveur. Lorsqu'un composant souscrit aux notifications d'un store, il lance fatalement une requête HTTP aux stores coté serveur. Nexus Flux introduit une brique au milieu de la communication composants / stores chargée de gérer et d'optimiser les souscriptions (mode "batch", avec plusieurs souscriptions en 1 requête).
 
 ## Ma conclusion
 Il n'y a pas que React qui peut être adapté ailleurs en reprenant les principes. Flux vit la même transformation ici : les principes de Flux sont adaptés pour des échanges client / serveur. Le pattern est bien respecté au final. En revanche, ca reste réservé à un besoin de "statefulness" important coté serveur. Les fonctionnalités sociales de Webedia (tchat, webTV, ...).
-
-
-
 
