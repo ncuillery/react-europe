@@ -83,3 +83,72 @@ Nexus Flux a aussi pour rôle d'optimiser les souscriptions aux stores coté ser
 ## Ma conclusion
 Il n'y a pas que React qui peut être adapté ailleurs en reprenant les principes. Flux vit la même transformation ici : les principes de Flux sont adaptés pour des échanges client / serveur. Le pattern est bien respecté au final. En revanche, ca reste réservé à un besoin de "statefulness" important coté serveur. Les fonctionnalités sociales de Webedia (tchat, webTV, ...).
 
+# Exploring GraphQL
+
+Dévoilé au public en janvier dernier à la React.conf, GraphQL est une API de requêtage utilisée par Facebook. Lee Byron a présenté en détail les fonctionnalités ainsi que les travaux effectués pour rendre la librairie utilisable dans un autre contexte que Facebook. Il a d'ailleurs annoncé la sortie public du premier draft de la [spécification](http://facebook.github.io/graphql/), ainsi que la première [implémentation](https://github.com/graphql/graphql-js) pour NodeJS.
+
+## Mental model
+
+A l'époque la première application Facebook mobile était une encapsulation du site Web, réutilisant donc les API serveur de ce dernier. Lorsque les applications Facebook sont devenus des applications natives, les problèmes de maintenance coté serveur ont commencé à apparaître. Comment maintenir plusieurs endpoints coté serveur pour les différents clients Facebook ?
+
+La norme REST facilite les échanges mais a ses défauts, notamment la nécessité d'envoyer plusieurs requêtes pour récupérer des sous-entités. Une première réponse à ce problème a été [FQL](https://developers.facebook.com/docs/technical-guides/fql/), sorte de SQL enrichi avec des noms de "table" customisé. Mais son utilisation restait difficile à cause d'une manière non naturelle de récupérer les données (jointures compliquées).
+
+Ainsi est né GraphQL qui permet de déclarer nos requêtes sous forme de graphe, tel que nous les pensons : on parle de **mental model**. Une requète GraphQL se présente comme suit:
+```
+{
+  user(id: 29550) {
+    name
+    country
+    colleagues(attend: 'ReactEurope2015') {
+      name
+    }
+  }
+}
+```
+
+La requète ressemble à une structure JSON sans les valeurs, uniquement les clés (appelées "champs"). Ces champs peuvent prendre des arguments (exemple pour requêter le `user` d'id égal à 29550).
+
+La réponse sera de la forme:
+```
+{
+  user: {
+    name: 'Nicolas Cuillery'
+    country: 'France'
+    colleagues : [
+      {name: 'Matthieu Lux'},
+      {name: 'Florent Lepretre'},
+      {name: 'Ahmad Cousin'}
+    ]
+  }
+}
+```
+La réponse est en JSON et contient uniquement les champs demandés. Avec cet exemple, on voit la facilité avec laquelle on requête les données (cela revient à écrire un DTO) et avec laquelle on réalise nos "projections".
+
+## Architecture
+
+Ce qu'il faut bien voir, c'est que GraphQL n'est pas système de stockage et, par extension, peut être utilisé par dessus n'importe quelle source de données. Le rôle du serveur GraphQL est de fournir des "possibilités" (c'est à dire les champs, ou groupe de champs), c'est aux clients de dire quelles possibilités ils veulent.
+
+C'est particulièrement intéressant pour les applications mobile de Facebook qui changent de version à rythme régulier et dont le paysage est très fragmenté (de nombreuses versions de chaque app sont utilisées en même temps) : comme c'est le client qui contient la requête, le serveur se contente alors d'exposer des possibilités.
+
+Facebook maintient ainsi aisément les requêtes envoyés par des utilisateurs qui n'ont pas mis à jour leur application depuis plus d'un an !
+
+## Typage & introspection
+
+Toutes les possibilités sont décrites précisement par un schéma, par exemple, pour le `user` de l'exemple précédent:
+```
+type User {
+  name: String,
+  country: String,
+  events: [String]
+  colleagues(attend: String = '*'): [User]
+}
+```
+
+
+
+
+
+
+C'est le rôle des implémentations telles que [GraphQL.js](https://github.com/graphql/graphql-js) de définir ces possibilités et de définir pour chacune d'entre elle la provenance des données exposées.
+
+
