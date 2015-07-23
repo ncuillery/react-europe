@@ -37,7 +37,7 @@ Après avoir exposé le bien-fondé de cette pratique, Michael enfonce le clou a
 Les pseudo-classes n'ont pas d'équivalent en "style inline", il faut alors traiter aux cas par cas. Parfois c'est facile (on peut reproduire `:nth-child()` avec la variable d'itération lors du rendu d'une liste par exemple), parfois la question ne se pose même pas (`:before` et `:after` deviennent... un span placé avant ou après l'élément), parfois c'est compliqué : le `:hover` est transformé en écoute d'événement mouseover et mouseout nettement plus verbeuse !
 
 C'est là que des librairies comme [Radium](https://github.com/FormidableLabs/radium) permettent de s'affranchir de ces problèmes en interprétant les pseudo-classes et les media-queries (autre point noir des styles inline) définis dans une collection JS:
-```as
+```javascript
 var style = {
   width: '25%',
 
@@ -94,12 +94,12 @@ A l'époque la première application Facebook mobile était une encapsulation du
 La norme REST facilite les échanges mais a ses défauts, notamment la nécessité d'envoyer plusieurs requêtes pour récupérer des sous-entités. Une première réponse à ce problème a été [FQL](https://developers.facebook.com/docs/technical-guides/fql/), sorte de SQL enrichi avec des noms de "table" customisé. Mais son utilisation restait difficile à cause d'une manière non naturelle de récupérer les données (jointures compliquées).
 
 Ainsi est né GraphQL qui permet de déclarer nos requêtes sous forme de graphe, tel que nous les pensons : on parle de **mental model**. Une requète GraphQL se présente comme suit:
-```
+```javascript
 {
   user(id: 29550) {
     name
     country
-    colleagues(attend: 'ReactEurope2015') {
+    colleagues(attendTo: 'ReactEurope2015') {
       name
     }
   }
@@ -109,7 +109,7 @@ Ainsi est né GraphQL qui permet de déclarer nos requêtes sous forme de graphe
 La requète ressemble à une structure JSON sans les valeurs, uniquement les clés (appelées "champs"). Ces champs peuvent prendre des arguments (exemple pour requêter le `user` d'id égal à 29550).
 
 La réponse sera de la forme:
-```
+```javascript
 {
   user: {
     name: 'Nicolas Cuillery'
@@ -126,11 +126,9 @@ La réponse est en JSON et contient uniquement les champs demandés. Avec cet ex
 
 ## Architecture
 
-Ce qu'il faut bien voir, c'est que GraphQL n'est pas système de stockage et, par extension, peut être utilisé par dessus n'importe quelle source de données. Le rôle du serveur GraphQL est de fournir des "possibilités" (c'est à dire les champs, ou groupe de champs), c'est aux clients de dire quelles possibilités ils veulent.
+Ce qu'il faut bien voir, c'est que GraphQL n'est pas système de stockage et, par extension, peut être utilisé par dessus n'importe quelle source de données. Le rôle du serveur GraphQL est de fournir des "possibilités" (c'est à dire les champs, ou groupe de champs), c'est aux clients de dire quelles possibilités ils veulent (c'est à dire les requêtes GraphQL).
 
-C'est particulièrement intéressant pour les applications mobile de Facebook qui changent de version à rythme régulier et dont le paysage est très fragmenté (de nombreuses versions de chaque app sont utilisées en même temps) : comme c'est le client qui contient la requête, le serveur se contente alors d'exposer des possibilités.
-
-Facebook maintient ainsi aisément les requêtes envoyés par des utilisateurs qui n'ont pas mis à jour leur application depuis plus d'un an !
+C'est particulièrement intéressant pour les applications mobile de Facebook qui changent de version à rythme régulier et dont le paysage est très fragmenté : de nombreuses versions de chaque app sont utilisées en même temps, avec des requêtes différentes d'un version à l'autre (un champ en plus par exemple). C'est le client qui contient la requête, le serveur se contente d'exposer des possibilités. Facebook maintient ainsi aisément les requêtes envoyés par des utilisateurs qui n'ont pas mis à jour leur application depuis plus d'un an !
 
 ## Typage & introspection
 
@@ -140,15 +138,74 @@ type User {
   name: String,
   country: String,
   events: [String]
-  colleagues(attend: String = '*'): [User]
+  colleagues(attendTo: String = '*'): [User]
 }
 ```
 
+Nativement, un serveur GraphQL expose ce schéma aux clients, ouvrant ainsi la porte à une quantité d'outils pour le développeur:
+- Validation
+- Intégration avec les IDE
+- Documentation automatique de l'API
+- Génération de code
+
+## Backed by your code
+
+Il n'y a rien de magique dans la récupération des données, GraphQL attends une méthode pour chaque champ dont les arguments deviennent logiquement des paramètres de la méthode. C'est là qu'on va appeler les couches inférieures de notre application pour remonter / aggréger les données. Exemple en JS pour le user ci-dessous:
+```javascript
+{
+  name: function(user) {
+    return user.name;
+  },
+  country: function(user) {
+    return user.country;
+  },
+  colleagues: function(user, attendTo) {
+    if(attendTo === '*') {
+      return userService.getAllColleagues(user.id);
+    } else {
+      return userService.getColleaguesByEventName(user.id, attendTo);
+    }
+  }
+}
+```
+
+Le base de code existante peut donc être réutilisée pour fournir une API GraphQL.
+
+## Ma conclusion
+
+La présentation (totalement détachée de React) présente clairement où se place GraphQL. La récupération entité après entité, champ après champ, me laisser penser que l'adaptation est plus aisée sur une architecture micro-service. Le buzz autour de la technologie me laisse penser qu'on pourra voir de belles choses autour de GraphQL dans le monde JS, comme par exemple une intégration avec Mongoose (qui apporte un système de schéma totalement équivalent). Seul regret concernant l'écriture, Lee a brièvement évoqué des **mutations** inspirées des actions Flux, j'aurai aimé en voir un peu plus.
+
+# Live React: Hot Reloading With Time Travel
+
+Dan Abramov, talentueux contributeur open-source, présente ses 2 projets majeurs : [react-hot-loader](https://github.com/gaearon/react-hot-loader) et [redux](https://github.com/gaearon/redux). Ces 2 projets sont nés de la frustration engendré par le développement Web. 
+
+## react-hot-loader
+
+La frustation qui a conduit à la création de react-hot-loader est évidente: c'est le workflow standard de développement d'une application web:
+- Modification d'une portion de code
+- Build
+- Actualisation du navigateur
+- Recherche de l'état d'origine (navigation, saisie, etc.)
+- Retour au premier point...
+
+Que de temps perdu à chacune de ces étapes ! C'est là qu'intervient react-hot-loader, un module pour webpack. A l'aide une courte démo, Dan nous montre la modification à chaud d'un composant React, aussi bien cosmétique que logique.
+
+Ensuite vient l'explication technique, on comprend que le hot-reload est rendue possible par les fonctionnalités conjugués de 3 briques:
+- Webpack, qui permet le remplacement à chaud de n'importe quel module Common ([HMR](http://webpack.github.io/docs/hot-module-replacement.html)),
+- react-hot-loader, qui intervient en cas de modification de composant React, il agit comme un **proxy** sur les méthodes du composant : en cas de modification d'une méthode (`render`, `componentDidMount`, etc.), l'ancienne méthode proxyfiée est remplacée par la nouvelle. Ainsi, l'état du composant est préservé. 
+- React lui-même, qui propose une fonction de rendu [pure](https://fr.wikipedia.org/wiki/Fonction_pure) : le `render` ne dépend que des propriétés en entrée (props / state). De fait, le remplacement de cette fonction par react-hot-loader permet à lui seul d'obtenir le nouveau rendu.
+
+## La sérendipité de Redux
+
+Là encore, c'est la frustation né de l'écriture des stores dans une application Flux qui a poussé Dan à réfléchir à une simplification et à finalement écrire complètement une nouvelle implémentation Flux:
+https://twitter.com/dan_abramov/status/604356871722569728
+
+Les stores sont trop compliqués. Première étape, la notification : partant du principe que les [stores doivent être immutables](https://facebook.github.io/react/docs/advanced-performance.html#immutable-js-and-flux), la simple comparaison de référence permet de savoir si l'état du store a changé, rendant le principe de notification des stores inutiles.
+
+Ensuite, l'étape d'enregistrement du store auprès du dispatcher est inutile : l'existence d'un store suffit à elle-même pour indiquer que le dispatcher doit s'en préoccuper !
 
 
 
 
-
-C'est le rôle des implémentations telles que [GraphQL.js](https://github.com/graphql/graphql-js) de définir ces possibilités et de définir pour chacune d'entre elle la provenance des données exposées.
 
 
