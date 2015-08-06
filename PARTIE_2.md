@@ -46,3 +46,5 @@ Via une impressionnante démo, Dan nous montre qu'à travers un simple composant
 Il le dit lui-même, Dan n'a jamais eu l'occasion de s'expliquer sur ce qui l'a poussé à créer Redux, il le fait aujourd'hui avec talent. L'explication est claire et nous pousse à croire en Redux, malgré les libertés prises sur le pattern. C'est l'implémentation Flux la plus "hype" à l'heure où j'écris ces lignes. 
 
 Les démos sont efficaces et convainquent également de l'intérêt d'un bon outillage. On se rapproche bien de la thématique DX (Developer eXperience).
+
+https://twitter.com/E0M/status/616605333964730369
