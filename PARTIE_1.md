@@ -7,6 +7,8 @@ Deux notions sont revenues dans beaucoup de talks et ont donné l'esprit génér
 - La DX (Developer eXperience): aussi importante de l'UX, elle est au coeur des librairies de l'écosytème React. Le futur des animations en React par exemple est tourné vers la DX.
 - React doit être vu comme un principe, une philosophie. Le React actuel est une implémentation (DOM), React Native en est une autre (iOS). Ce détachement était un thèmme récurrent: React dans le canvas, React comme aggrégateur de données coté serveur, React dans le terminal (WTF ?),... Sebastian Markbage allant même jusqu'à présenter une charge contre le DOM qu'il présente comme un boulet accroché au pied de React. Ce détachement est d'ailleurs la nouveauté de la version 0.14 dont la beta a été annoncé dans un [blog post](https://facebook.github.io/react/blog/2015/07/03/react-v0.14-beta-1.html) durant la conférence.
 
+![React-Europe](reacteurope.png)
+
 
 # Keynote
 
@@ -15,6 +17,9 @@ La keynote était présentée par Christopher Chedeau (@vjeux), le *frenchie* de
 Déjà quelques annonces sur la keynote avec une disponibilité de React-native pour Android prévue pour début octobre (TODO Verif). En guise de teasing, Christopher a évoqué un portage d'une app mobile React-Native iOS vers Android où **87%** du code a pu être réutilisé !
 
 Pour conclure la keynote, Christopher nous assure que l'empreinte de Facebook est de plus en plus réduite, les contributeurs open-source sont plus que jamais les bienvenus, en s'osant même un brin moralisateur sur la "concurrence malsaine" introduite par les différentes communautés (Angular, Ember, Backbone, ...). Le mot d'ordre est "Aimez vous les uns les autres" et "Do not feed the troll" !
+
+- Vidéo : https://www.youtube.com/watch?v=PAA9O4E1IM4
+- Twitter : https://twitter.com/vjeux
 
 # Inline styles
 
@@ -54,6 +59,10 @@ var style = {
 ## Ma conclusion
 Déjà peu attiré par le CSS, je n'ai eu aucun mal à adhérer aux théories de Michael. On sent que la question des CSS pour les composants React est épineuse et donne lieu à des tas de work-arounds (comme pour [react-modal](https://github.com/rackt/react-modal/blob/master/lib/helpers/injectCSS.js) par exemple).
 Bien décidé à tester Radium, j'espère retrouver le même confort que lors de ma découverte du JSX (l'aspect "mono-fichier"). J'ajouterai un avantage que n'a pas cité Michael : le style inline sonne le glas du code mort difficilement détectable des CSS.
+
+- Vidéo : https://www.youtube.com/watch?v=ERB1TJBn32c
+- Twitter : https://twitter.com/chantastic
+- Slides : https://speakerdeck.com/chantastic/inline-styles-react-europe
 
 # Flux over the wire
 
