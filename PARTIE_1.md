@@ -64,6 +64,8 @@ Bien décidé à tester Radium, j'espère retrouver le même confort que lors de
 - Twitter : https://twitter.com/chantastic
 - Slides : https://speakerdeck.com/chantastic/inline-styles-react-europe
 
+![React-Europe](DSC_0196.JPG)
+
 # Flux over the wire
 
 La transposition des principes de React à différent support (mobile, canvas, etc.) est valable également pour Flux. Elie Rotenberg, CTO de jeuxvideo.com, a présenté une utilisation de Flux partagé entre le client et le serveur.
@@ -92,7 +94,11 @@ Ce principe de "Flux sur le réseau" est en place sur les sites majeurs de Webed
 Nexus Flux a aussi pour rôle d'optimiser les souscriptions aux stores coté serveur. Lorsqu'un composant souscrit aux notifications d'un store, il lance fatalement une requête HTTP aux stores coté serveur. Nexus Flux introduit une brique au milieu de la communication composants / stores chargée de gérer et d'optimiser les souscriptions (mode "batch", avec plusieurs souscriptions en 1 requête).
 
 ## Ma conclusion
-Il n'y a pas que React qui peut être adapté ailleurs en reprenant les principes. Flux vit la même transformation ici : les principes de Flux sont adaptés pour des échanges client / serveur. Le pattern est bien respecté au final. En revanche, ca reste réservé à un besoin de "statefulness" important coté serveur. Les fonctionnalités sociales de Webedia (tchat, webTV, ...).
+Ce n'est pas React qui est adapté dans un autre context en reprenant les principes, ici c'est Flux : les principes de Flux sont adaptés pour des échanges client / serveur. Le pattern est bien respecté au final. En revanche, ca reste réservé à un besoin de "statefulness" important coté serveur. Les fonctionnalités sociales de Webedia (tchat, webTV, ...).
+
+- Vidéo : https://www.youtube.com/watch?v=JSjhhUvB9DY
+- Twitter : https://twitter.com/elierotenberg
+- Slides : https://speakerdeck.com/elierotenberg/flux-over-the-wire-at-reacteurope-2015
 
 # Exploring GraphQL
 
@@ -137,7 +143,7 @@ La réponse est en JSON et contient uniquement les champs demandés. Avec cet ex
 
 ## Architecture
 
-Ce qu'il faut bien voir, c'est que GraphQL n'est pas système de stockage et, par extension, peut être utilisé par dessus n'importe quelle source de données. Le rôle du serveur GraphQL est de fournir des "possibilités" (c'est à dire les champs, ou groupe de champs), c'est aux clients de dire quelles possibilités ils veulent (c'est à dire les requêtes GraphQL).
+Ce qu'il faut bien voir, c'est que GraphQL n'est pas système de stockage et, par extension, peut être utilisé par dessus n'importe quelle source de données. Le rôle du serveur GraphQL est de fournir des "possibilités" (l'équivalent de champs, ou groupe de champs), c'est aux clients de dire quelles possibilités ils veulent (c'est à dire les requêtes GraphQL).
 
 C'est particulièrement intéressant pour les applications mobile de Facebook qui changent de version à rythme régulier et dont le paysage est très fragmenté : de nombreuses versions de chaque app sont utilisées en même temps, avec des requêtes différentes d'un version à l'autre (un champ en plus par exemple). C'est le client qui contient la requête, le serveur se contente d'exposer des possibilités. Facebook maintient ainsi aisément les requêtes envoyés par des utilisateurs qui n'ont pas mis à jour leur application depuis plus d'un an !
 
@@ -185,3 +191,6 @@ Le base de code existante peut donc être réutilisée pour fournir une API Grap
 ## Ma conclusion
 
 La présentation (totalement détachée de React) présente clairement où se place GraphQL. La récupération entité après entité, champ après champ, me laisser penser que l'adaptation est plus aisée sur une architecture micro-service. Le buzz autour de la technologie me laisse penser qu'on pourra voir de belles choses autour de GraphQL dans le monde JS, comme par exemple une intégration avec Mongoose (qui apporte un système de schéma totalement équivalent). Seul regret concernant l'écriture, Lee a brièvement évoqué des **mutations** inspirées des actions Flux, j'aurai aimé en voir un peu plus.
+
+Vidéo : https://www.youtube.com/watch?v=WQLzZf34FJ8
+Twitter : https://twitter.com/leeb
