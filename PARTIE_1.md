@@ -67,17 +67,17 @@ Bien décidé à tester Radium, j'espère retrouver le même confort que lors de
 
 # Flux over the wire
 
-La transposition des principes de React à différent supports (mobile, canvas, etc.) est valable également pour Flux. Elie Rotenberg, CTO de jeuxvideo.com, a présenté une utilisation de Flux partagée entre le client et le serveur.
+La transposition des principes de React à différents supports (mobile, canvas, etc.) est valable également pour Flux. Elie Rotenberg, CTO de jeuxvideo.com, a présenté une utilisation de Flux partagée entre le client et le serveur.
 
 ## Symetrical Flux
 
-Elie introduit les notions de Flux, où le store est garant de l'état de l'appli (unique source de vérité) et les composants accèdent à cet état: l'état est partagé mais maintenable car centralisé dans le store. L'idée à la base de l'approche particulière de Elie, c'est que les actions soumettant un résultat via le dispatcher et les stores émettant des notifications aux composants sont 2 actes similaires dans leur principe : il s'agit dans les 2 cas d'un échange unilatéral entre 2 briques du modèle Flux. Le modèle Flux peut alors être vu comme un modèle symétrique ("symetrical flux") où les composants dispatchent les données des stores et les stores notifient les composants en retour:
+Elie introduit les notions de Flux, où le store est garant de l'état de l'appli (unique source de vérité) et les composants accèdent à cet état: l'état est partagé mais maintenable car centralisé dans le store. L'idée à la base de l'approche particulière d'Elie, c'est que les actions soumettant un résultat via le dispatcher et les stores émettant des notifications aux composants sont 2 actes similaires dans leur principe : il s'agit dans les 2 cas d'un échange unilatéral entre 2 briques du modèle Flux. Le modèle Flux peut alors être vu comme un modèle symétrique ("symetrical flux") où les composants dispatchent les données des stores et les stores notifient les composants en retour:
 
 ![Symetrical Flux](symetrical_flux.png)
 
 ## Flux over the channel
 
-Cette simplification du modèle Flux (les actions ont disparu, la notification des stores n'est plus une simple notification mais contient des données) permet de localiser les stores coté serveur et les composants coté client. Ils peuvent communiquer quelquesoit l'implémentation:
+Cette simplification du modèle Flux (les actions ont disparu, la notification des stores n'est plus une simple notification mais contient des données) permet de localiser les stores coté serveur et les composants coté client. Ils peuvent communiquer quelque soit l'implémentation:
 - Callbacks / promesses
 - Event emitters
 - Websockets
@@ -88,12 +88,12 @@ Ce modèle peut s'appliquer par exemple à un tchat. Le store contient l'état d
 
 ## Nexus Flux
 
-Ce principe de "Flux sur le réseau" est en place sur les sites majeurs de Webedia gaming (jeuxvideos.com, millenium.org). Un bon nombre de librairies sont disponibles sur le [compte Github d'elie](https://github.com/elierotenberg). Parmi elles, *Nexus Flux* est l'implémentation "symetrical Flux" qui abstrait les méthodes dispatch et onChange, laissant la main aux adaptateurs tels que *Nexus Flux Socket.io*. D'autres adaptateurs vont pouvoir être créés dans le futur pour les différents moyens de communication client / serveur susmentionnés.
+Ce principe de "Flux sur le réseau" est en place sur les sites majeurs de Webedia gaming (jeuxvideos.com, millenium.org). Un bon nombre de librairies sont disponibles sur le [compte Github d'Elie](https://github.com/elierotenberg). Parmi elles, *Nexus Flux* est l'implémentation "symetrical Flux" qui abstrait les méthodes dispatch et onChange, laissant la main aux adaptateurs tels que *Nexus Flux Socket.io*. D'autres adaptateurs vont pouvoir être créés dans le futur pour les différents moyens de communication client / serveur susmentionnés.
 
 Nexus Flux a aussi pour rôle d'optimiser les souscriptions aux stores coté serveur. Lorsqu'un composant souscrit aux notifications d'un store, il lance fatalement une requête HTTP aux stores coté serveur. Nexus Flux introduit une brique au milieu de la communication composants / stores chargée de gérer et d'optimiser les souscriptions (mode "batch", avec plusieurs souscriptions en 1 requête).
 
 ## Ma conclusion
-Ici c'est Flux qui est adapté dans un autre contexte en reprenant les principes : les échanges client / serveur. Le pattern est bien respecté au final. En revanche, ca reste réservé à un besoin de "statefulness" important coté serveur, comme les fonctionnalités sociales de Webedia (tchat, live vidéo, ...).
+Ici c'est Flux qui est adapté dans un autre contexte : les échanges client / serveur. Le pattern est bien respecté au final. En revanche, ca reste réservé à un besoin de "statefulness" important coté serveur, comme les fonctionnalités sociales de Webedia (tchat, live vidéo, ...).
 
 - Vidéo : https://www.youtube.com/watch?v=JSjhhUvB9DY
 - Twitter : https://twitter.com/elierotenberg
@@ -105,7 +105,7 @@ Dévoilé au public en janvier dernier à la React.conf, GraphQL est une API de 
 
 ## Mental model
 
-A l'époque la première application Facebook mobile était une encapsulation du site Web, réutilisant donc les API serveur de ce dernier. Lorsque les applications Facebook sont devenus des applications natives, les problèmes de maintenance coté serveur ont commencé à apparaître. Comment maintenir plusieurs endpoints coté serveur pour les différents clients Facebook ?
+A l'époque, la première application Facebook mobile était une encapsulation du site Web, réutilisant donc les API serveur de ce dernier. Lorsque les applications Facebook sont devenues des applications natives, les problèmes de maintenance coté serveur ont commencé à apparaître. Comment maintenir plusieurs endpoints coté serveur pour les différents clients Facebook ?
 
 La norme REST facilite les échanges mais a ses défauts, notamment la nécessité d'envoyer plusieurs requêtes pour récupérer des sous-entités. Une première réponse à ce problème a été [FQL](https://developers.facebook.com/docs/technical-guides/fql/), sorte de SQL enrichi avec des noms de "table" customisés. Mais son utilisation restait difficile à cause d'une manière non naturelle de récupérer les données (jointures compliquées).
 
@@ -142,13 +142,13 @@ La réponse est en JSON valide cette fois et contient uniquement les champs dema
 
 ## Architecture
 
-Ce qu'il faut bien voir, c'est que GraphQL n'est pas système de stockage et, par extension, peut être utilisé par dessus n'importe quelle source de données. Le rôle du serveur GraphQL est de fournir des "possibilités" (l'équivalent des champs, ou groupes de champs), c'est aux clients de dire quelles possibilités ils veulent (c'est à dire une requête GraphQL).
+Ce qu'il faut bien voir, c'est que GraphQL n'est pas un système de stockage et peut donc être utilisé par dessus n'importe quelle source de données. Le rôle du serveur GraphQL est de fournir des "possibilités" (l'équivalent des champs, ou groupes de champs), c'est aux clients de dire quelles possibilités ils veulent (c'est à dire une requête GraphQL).
 
 C'est particulièrement intéressant pour les applications mobile de Facebook qui changent de version à rythme régulier et dont le paysage est très fragmenté : de nombreuses versions de chaque apps sont utilisées en même temps, avec des requêtes différentes d'un version à l'autre (un champ en plus par exemple). C'est le client qui contient la requête, le serveur se contente d'exposer des possibilités. Facebook maintient ainsi aisément les requêtes envoyées par des utilisateurs qui n'ont pas mis à jour leur application depuis plus d'un an !
 
 ## Typage & introspection
 
-Toutes les possibilités sont décrites précisement par un schéma, par exemple, pour le `user` de l'exemple précédent:
+Toutes les possibilités sont décrites précisement par un schéma, par exemple, pour le `user` vu précédemment:
 ```
 type User {
   name: String,
@@ -166,7 +166,7 @@ Nativement, un serveur GraphQL expose ce schéma aux clients, ouvrant ainsi la p
 
 ## Backed by your code
 
-Il n'y a rien de magique dans la récupération des données, GraphQL attends une méthode pour chaque champ dont les arguments deviennent logiquement des paramètres de la méthode. C'est là qu'on va appeler les couches inférieures de notre application pour remonter / aggréger les données. Exemple en JS pour le user ci-dessous:
+Il n'y a rien de magique dans la récupération des données, GraphQL attend une méthode pour chaque champ dont les arguments deviennent logiquement des paramètres de la méthode. C'est là qu'on va appeler les couches inférieures de notre application pour remonter / aggréger les données. Exemple en JS pour le user ci-dessous:
 ```javascript
 {
   name: function(user) {
@@ -189,7 +189,7 @@ Le base de code existante peut donc être réutilisée pour fournir une API Grap
 
 ## Ma conclusion
 
-La présentation (totalement détachée de React) présente clairement où se place GraphQL. La récupération entité après entité, champ après champ, me laisser penser que l'adaptation est plus aisée sur une architecture micro-service. Le buzz autour de la technologie me laisse penser qu'on pourra voir de belles choses autour de GraphQL dans le monde JS, comme par exemple une intégration avec Mongoose (qui apporte un système de schéma totalement équivalent). Seul regret concernant l'écriture, Lee a brièvement évoqué des **mutations** inspirées des actions Flux, j'aurai aimé en voir un peu plus.
+La présentation (totalement détachée de React) présente clairement où se place GraphQL. La récupération entité après entité, champ après champ, me laisse penser que l'adaptation est plus aisée sur une architecture micro-service. Le buzz autour de la technologie laisse supposer qu'on pourra voir de belles choses autour de GraphQL dans le monde JS, comme par exemple une intégration avec Mongoose (qui apporte un système de schéma totalement équivalent). Seul regret concernant l'écriture, Lee a brièvement évoqué des **mutations** inspirées des actions Flux, j'aurai aimé en voir un peu plus.
 
-Vidéo : https://www.youtube.com/watch?v=WQLzZf34FJ8
-Twitter : https://twitter.com/leeb
+- Vidéo : https://www.youtube.com/watch?v=WQLzZf34FJ8
+- Twitter : https://twitter.com/leeb
